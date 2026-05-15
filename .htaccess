@@ -1,0 +1,32 @@
+Options -Indexes
+ServerSignature Off
+
+# Block direct access to backend
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /sikos/
+
+    # Block direct backend access
+    RewriteRule ^backend/ - [F,L]
+    RewriteRule ^database/ - [F,L]
+
+    # Allow api and pages
+    RewriteRule ^api/ - [L]
+    RewriteRule ^pages/ - [L]
+    RewriteRule ^public/ - [L]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options SAMEORIGIN
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# PHP settings
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 5M
+    php_value post_max_size 8M
+    php_value max_execution_time 60
+    php_value session.gc_maxlifetime 3600
+</IfModule>

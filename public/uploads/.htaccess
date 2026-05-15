@@ -1,0 +1,14 @@
+Options -Indexes
+ServerSignature Off
+
+# Protect uploads from direct PHP execution
+<FilesMatch "\.(php|php3|php4|php5|phtml)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow direct image/pdf access
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|webp)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
